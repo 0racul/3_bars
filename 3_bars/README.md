@@ -1,14 +1,15 @@
-# Ближайшие бары
+# Bars analyze
 
 Script analyzes the bars list and give the result - the smallest bar, the biggest bar and the nearest bar to your location,
  which you input from keyboard
 
-# Как запустить
+# How to run
 
-Скрипт требует для своей работы установленного интерпретатора Python версии 3.5
+Need Python 3.5 interpreter onboard
 need math and json library onboard
+Need bars datafile on the operational directory https://op.mos.ru/EHDWSREST/catalog/export/get?id=290344
 
-Запуск на Linux:
+Run on Linux:
 
 ```bash
 
@@ -19,8 +20,9 @@ Nearest bar to your location {'Name': 'Таверна', 'Latitude': 55.699888, '
 
 ```
 
-Запуск на Windows происходит аналогично.
+Run on WIndows - the same.
 
-# Цели проекта
+# Project goals
 
-Код создан в учебных целях. В рамках учебного курса по веб-разработке - [DEVMAN.org](https://devman.org)
+The code is written for educational purposes. Training course for web-developers - [DEVMAN.org](https://devman.org)
+
