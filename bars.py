@@ -1,14 +1,14 @@
 import json
 import math
-
+import argparse
 
 def load_data(filepath):
-    with open(filepath, 'r') as f:
-        data_from_json = json.loads(f.read())
+    with open(filepath, "r") as file:
+        data_from_json = json.loads(file.read())
     return data_from_json
 
 
-def biggest_bar(loaded_bars):
+def get_biggest_bar(loaded_bars):
 
     bar_names = []
     bar_seats = []
@@ -31,7 +31,7 @@ def biggest_bar(loaded_bars):
             continue
 
 
-def smallest_bar(loaded_bars):
+def get_smallest_bar(loaded_bars):
 
     bar_names = []
     bar_seats = []
@@ -55,7 +55,7 @@ def smallest_bar(loaded_bars):
             continue
 
 
-def find_bar(loaded_bars, current_longitude, current_latitude):
+def find_nearest_bar(loaded_bars, current_longitude, current_latitude):
 
     bars_with_distances = []
     distances = []
@@ -74,7 +74,7 @@ def find_bar(loaded_bars, current_longitude, current_latitude):
                                     "Longitude": bar_longitude,
                                     "Address": current_bar["Address"],
                                     "Distance": distance_to_bar})
-        distances.append(bars_with_distances[i]["Distance"])
+        distances.append(bars_with_distances[bar_number]["Distance"])
 
     min_distance = min(distances)
     needed_bar_index = distances.index(min_distance)
@@ -83,25 +83,38 @@ def find_bar(loaded_bars, current_longitude, current_latitude):
     return needed_bar
 
 
-if __name__ == '__main__':
+def parser_parser():
+    global parser
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-path", "--path_to_file", help="Path to the json file")
+    parser.add_argument("-cur_long", "--current_longitude", help="Your current longitude - only digits pls")
+    parser.add_argument("-cur_lat", "--current_latitude", help="Your current latitude - only digits pls")
 
-    print("file path pls \n")
+    pars_result = parser.parse_args()
+
+    return vars(pars_result)
+
+
+if __name__ == "__main__":
 
     current_longitude = 0
     current_latitude = 0
-    dir_path = input()
 
-    print("Input your place coordinates, longitude and latitude\n")
+    pars_result = parser_parser()
 
-    longitude = float(input(current_longitude))
-    latitude = float(input(current_latitude))
+    path_to_file = pars_result.get("path_to_file")
+    longitude = float(pars_result.get("current_longitude"))
+    latitude = float(pars_result.get("current_latitude"))
 
-    loaded_bars = load_data(dir_path)
+    loaded_bars = load_data(path_to_file)
 
-    find = find_bar(loaded_bars, longitude, latitude)
-    biggest = biggest_bar(loaded_bars)
-    smallest = smallest_bar(loaded_bars)
+    find = find_nearest_bar(loaded_bars, longitude, latitude)
+    biggest = get_biggest_bar(loaded_bars)
+    smallest = get_smallest_bar(loaded_bars)
 
-    print("Biggest bar in Moscow " + str(biggest))
-    print("Smallest bar " + str(smallest))
-    print("Nearest bar to your loc " + str(find))
+#    print("Biggest bar in Moscow " + str(biggest))
+#    print("Smallest bar " + str(smallest))
+#    print("Nearest bar to your loc " + str(find))
+
+
+    print("Biggest bar in Moscow {}, Smallest bar {},Nearest bar to your loc {}".format(str(biggest), str(smallest), str(find)))
